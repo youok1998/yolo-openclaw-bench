@@ -1,6 +1,6 @@
 # yolo-openclaw-bench
 
-OpenClaw orchestration framework for YOLOv8 benchmark (mAP + QPS) on COCO.
+OpenClaw orchestration framework for YOLOv8 benchmark on COCO (mAP, QPS, F1, Precision, Recall + FP/FN image artifacts).
 
 ## Architecture
 - API gateway (FastAPI): receive jobs, auth, status/result query
