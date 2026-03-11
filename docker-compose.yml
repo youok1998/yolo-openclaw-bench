@@ -5,13 +5,18 @@ services:
       dockerfile: docker/Dockerfile.api
     ports:
       - "8000:8000"
+    environment:
+      - API_KEY=change-me
     volumes:
       - ./:/app
+      - /dataset:/dataset
 
   worker:
     build:
       context: .
       dockerfile: docker/Dockerfile.worker
+    environment:
+      - BENCH_DB_PATH=/app/bench.db
     deploy:
       resources:
         reservations:
@@ -21,3 +26,4 @@ services:
               capabilities: [gpu]
     volumes:
       - ./:/app
+      - /dataset:/dataset
