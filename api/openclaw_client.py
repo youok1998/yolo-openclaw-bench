@@ -1,4 +1,5 @@
 import os
+import subprocess
 import requests
 
 OPENCLAW_BASE = os.getenv("OPENCLAW_BASE", "http://localhost:3100")
@@ -15,6 +16,11 @@ def spawn_job(job_id: str):
     }
     headers = {"Authorization": f"Bearer {OPENCLAW_TOKEN}"} if OPENCLAW_TOKEN else {}
     try:
-        requests.post(f"{OPENCLAW_BASE}/sessions/spawn", json=payload, headers=headers, timeout=10)
+        r = requests.post(f"{OPENCLAW_BASE}/sessions/spawn", json=payload, headers=headers, timeout=8)
+        if r.ok:
+            return
     except Exception:
         pass
+
+    # fallback: local process mode
+    subprocess.Popen(["python3", "worker/run_benchmark.py", job_id], cwd=".")
